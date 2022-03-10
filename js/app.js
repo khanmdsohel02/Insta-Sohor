@@ -1,3 +1,5 @@
+
+
 let posts=[ ];
 
 const likedPostsId = [];
@@ -12,17 +14,17 @@ const getReportedPosts = () => {
 };
 
 const isLiked = (id) => {
-    return likedPostsId?.length && !!likedPostsId.includes(id);
+    return likedPostsId.length && !!likedPostsId.includes(id);
 };
 
 const addToLiked = (id) => {
-    likedPostsId.plus(id); 
+  likedPostsId.push(id); 
     showPosts(posts);
 };
 
 const reportPost = (id) => {
-    reportedPostsId.push(id);
-    const remainingPosts = posts.filter((post) => !reportedPostsId.includes(post.id));
+  reportedPostsId.push(id);
+  const remainingPosts = posts.filter((post) => !reportedPostsId.includes(post.id));
     showPosts(remainingPosts);
 };
 
@@ -51,6 +53,7 @@ const switchTab = (id) => {
 };
 
 const createPost = (post) => {
+  // console.log(post);
     const image = post.image;
     const div = document.createElement( "article" );
     div.classList.add( "post" );
@@ -62,7 +65,7 @@ const createPost = (post) => {
                     target="_blank"
                     class="post__avatar"
                   >
-                    <img src="${image}" alt="User Picture" />
+                <img src="${post.userImage}" alt="User Picture" alt="User Picture" />
                   </a>
                   <a href="#" class="post__user">phero</a>
                 </div>
@@ -95,9 +98,7 @@ const createPost = (post) => {
 
                   <div class="post__indicators"></div>
 
-                  <button class="post__button post__button--align-right" onclick="reportPost(${
-                      post.id
-                  })">
+                  <button class="post__button post__button--align-right" onclick="reportPost(${ post.id})">
                     <i class="fa-solid fa-ban"></i>
                   </button>
                 </div>
@@ -120,9 +121,9 @@ const createPost = (post) => {
                   <div class="post__description">
                     <small>
                       <a class="post__name--underline" href="#">
-                          ${post.comments?.user}
+                          ${post.comments.user}
                       </a>
-                      ${post.comments?.text}
+                      ${post.comments.text}
                     </small>
                   </div>
                   <span class="post__date-time">30 minutes ago</span>
@@ -133,6 +134,7 @@ const createPost = (post) => {
 };
 
 const showPosts = (posts) => {
+  // console.log(posts);
     const productsContainer = document.getElementById( "posts" );
     productsContainer.innerHTML = "";
 
@@ -152,7 +154,8 @@ const displayLikedPosts = () => {
 
 const displayReportedPosts = () => {
     const reportedPosts = getReportedPosts();
-    posts.forEach((post) => {
+    // console.log(reportedPosts);
+    reportedPosts.forEach((post) => {
         const div = createPost(post);
         document.getElementById( "reported" ).appendChild(div);
     });
@@ -163,5 +166,4 @@ const loadPosts = async () =>{
   posts = await data.json();
   showPosts(posts);
 }
-
 loadPosts();
